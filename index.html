@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<script src = "table.js"> </script>
+		<link rel="stylesheet" type="text/css" href="table.css">
+		<title> 简单数回 </title>
+	</head>
+	<body>
+		<h2 style = "text-align: center; user-select: none;"> Puzzle-Loop</h2>
+		<h4 style = "text-align: center; user-select: none;"> Author：Ytterbiumer </h4>
+		<div id = "msg" style = "font-family: Consolas; user-select: none;"></div>
+		<div class = "puz">
+				<div class = "p" id = "p1"></div>
+				<div class = "l1" id = "1l1"></div>
+				<div class = "p" id = "p2"></div>
+				<div class = "l1" id = "1l2"></div>
+				<div class = "p" id = "p3"></div>
+				<div class = "l1" id = "1l3"></div>
+				<div class = "p" id = "p4"></div>
+				<div class = "l1" id = "1l4"></div>
+				<div class = "p" id = "p5"></div>
+				<div class = "l1" id = "1l5"></div>
+				<div class = "p" id = "p6"></div>
+
+				<div class = "l2" id = "2l1"></div>
+				<div class = "n" id = "n1">2</div>
+				<div class = "l2" id = "2l2"></div>
+				<div class = "n" id = "n2"></div>
+				<div class = "l2" id = "2l3"></div>
+				<div class = "n" id = "n3"></div>
+				<div class = "l2" id = "2l4"></div>
+				<div class = "n" id = "n4"></div>
+				<div class = "l2" id = "2l5"></div>
+				<div class = "n" id = "n5"></div>
+				<div class = "l2" id = "2l6"></div>
+
+				<div class = "p" id = "p7"></div>
+				<div class = "l1" id = "1l6"></div>
+				<div class = "p" id = "p8"></div>
+				<div class = "l1" id = "1l7"></div>
+				<div class = "p" id = "p9"></div>
+				<div class = "l1" id = "1l8"></div>
+				<div class = "p" id = "p10"></div>
+				<div class = "l1" id = "1l9"></div>
+				<div class = "p" id = "p11"></div>
+				<div class = "l1" id = "1l10"></div>
+				<div class = "p" id = "p12"></div>
+
+				<div class = "l2" id = "2l7"></div>
+				<div class = "n" id = "n6"></div>
+				<div class = "l2" id = "2l8"></div>
+				<div class = "n" id = "n7"></div>
+				<div class = "l2" id = "2l9"></div>
+				<div class = "n" id = "n8"></div>
+				<div class = "l2" id = "2l10"></div>
+				<div class = "n" id = "n9">3</div>
+				<div class = "l2" id = "2l11"></div>
+				<div class = "n" id = "n10"></div>
+				<div class = "l2" id = "2l12"></div>
+
+				<div class = "p" id = "p13"></div>
+				<div class = "l1" id = "1l11"></div>
+				<div class = "p" id = "p14"></div>
+				<div class = "l1" id = "1l12"></div>
+				<div class = "p" id = "p15"></div>
+				<div class = "l1" id = "1l13"></div>
+				<div class = "p" id = "p16"></div>
+				<div class = "l1" id = "1l14"></div>
+				<div class = "p" id = "p17"></div>
+				<div class = "l1" id = "1l15"></div>
+				<div class = "p" id = "p18"></div>
+
+				<div class = "l2" id = "2l13"></div>
+				<div class = "n" id = "n11"></div>
+				<div class = "l2" id = "2l14"></div>
+				<div class = "n" id = "n12"></div>
+				<div class = "l2" id = "2l15"></div>
+				<div class = "n" id = "n13"></div>
+				<div class = "l2" id = "2l16"></div>
+				<div class = "n" id = "n14"></div>
+				<div class = "l2" id = "2l17"></div>
+				<div class = "n" id = "n15">1</div>
+				<div class = "l2" id = "2l18"></div>
+
+				<div class = "p" id = "p19"></div>
+				<div class = "l1" id = "1l16"></div>
+				<div class = "p" id = "p20"></div>
+				<div class = "l1" id = "1l17"></div>
+				<div class = "p" id = "p21"></div>
+				<div class = "l1" id = "1l18"></div>
+				<div class = "p" id = "p22"></div>
+				<div class = "l1" id = "1l19"></div>
+				<div class = "p" id = "p23"></div>
+				<div class = "l1" id = "1l20"></div>
+				<div class = "p" id = "p24"></div>
+
+				<div class = "l2" id = "2l19"></div>
+				<div class = "n" id = "n16"></div>
+				<div class = "l2" id = "2l20"></div>
+				<div class = "n" id = "n17"></div>
+				<div class = "l2" id = "2l21"></div>
+				<div class = "n" id = "n18"></div>
+				<div class = "l2" id = "2l22"></div>
+				<div class = "n" id = "n19"></div>
+				<div class = "l2" id = "2l23"></div>
+				<div class = "n" id = "n20"></div>
+				<div class = "l2" id = "2l24"></div>
+
+				<div class = "p" id = "p25"></div>
+				<div class = "l1" id = "1l21"></div>
+				<div class = "p" id = "p26"></div>
+				<div class = "l1" id = "1l22"></div>
+				<div class = "p" id = "p27"></div>
+				<div class = "l1" id = "1l23"></div>
+				<div class = "p" id = "p28"></div>
+				<div class = "l1" id = "1l24"></div>
+				<div class = "p" id = "p29"></div>
+				<div class = "l1" id = "1l25"></div>
+				<div class = "p" id = "p30"></div>
+
+				<div class = "l2" id = "2l25"></div>
+				<div class = "n" id = "n21"></div>
+				<div class = "l2" id = "2l26"></div>
+				<div class = "n" id = "n22"></div>
+				<div class = "l2" id = "2l27"></div>
+				<div class = "n" id = "n23"></div>
+				<div class = "l2" id = "2l28"></div>
+				<div class = "n" id = "n24"></div>
+				<div class = "l2" id = "2l29"></div>
+				<div class = "n" id = "n25"></div>
+				<div class = "l2" id = "2l30"></div>
+
+				<div class = "p" id = "p31"></div>
+				<div class = "l1" id = "1l26"></div>
+				<div class = "p" id = "p32"></div>
+				<div class = "l1" id = "1l27"></div>
+				<div class = "p" id = "p33"></div>
+				<div class = "l1" id = "1l28"></div>
+				<div class = "p" id = "p34"></div>
+				<div class = "l1" id = "1l29"></div>
+				<div class = "p" id = "p35"></div>
+				<div class = "l1" id = "1l30"></div>
+				<div class = "p" id = "p36"></div>
+		</div>
+		<button type = "button" class = "btm" id = "smt">summit</button>
+		<button type = "button" class = "btm" id = "cln">clean</button>
+	</body>
+</html>
