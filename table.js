@@ -1,14 +1,20 @@
 window.onload = initAll;
 window.onresize = setPuz;
-
 function initAll() {
 	setPuz();
 	setLine();
 	setPoint();
 	setSummit();
+	setFork(); 
 }
 
 var MouseDowning = 0, putState = -1;
+
+function setFork() {
+	document.oncontextmenu = function() {
+		return false;
+	};
+}
 
 function setLine() {
 	var Ln1 = document.getElementsByClassName("l1");
@@ -19,6 +25,7 @@ function setLine() {
 	window.onmouseup = function() {
 		MouseDowning = 0;
 		putState = -1;
+		checkNum();
 	};
 	for (var i = 0; i < Ln1.length; i ++) {
 		Ln1[i].style.backgroundColor = "white";
@@ -50,6 +57,28 @@ function checkLine() {
 	} else if (putState != 0) {
 		putState = 1;
 		this.style.backgroundColor = "black";
+	}
+}
+
+function checkNum() {
+	for (var i = 0; i < 5; i ++) {
+		for (var j = 1; j <= 5; j ++) {
+			var k = i * 5 + j, s = 0;
+			if (document.getElementById("n" + k).innerText == "") continue;
+			var Lin = i * 5 + j;
+			if (document.getElementById("1l" + Lin).style.backgroundColor == "black") s ++;
+			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black") s ++;
+			Lin = i * 6 + j;
+			if (document.getElementById("2l" + Lin).style.backgroundColor == "black") s ++;
+			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black") s ++;
+			if (s > document.getElementById("n" + k).innerText) {
+				document.getElementById("n" + k).style.color = "red";
+			} else if (s == document.getElementById("n" + k).innerText) {
+				document.getElementById("n" + k).style.color = "lightgrey";
+			} else {
+				document.getElementById("n" + k).style.color = "black";
+			}
+		}
 	}
 }
 
@@ -174,6 +203,7 @@ function setPuz() {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
 		}
+		checkNum();
 	}
 	document.getElementById("msg").style.position = "absolute";
 	document.getElementById("msg").style.left = (x + 15) + "px";
