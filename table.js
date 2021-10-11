@@ -8,70 +8,93 @@ function initAll() {
 	setFork(); 
 }
 
-var MouseDowning = 0, putState = -1;
+let mouseDowning = 0, putState = -1, downButton = -1;
 
 function setFork() {
-	document.oncontextmenu = function() {
+	document.oncontextmenu = function() { // 取消右键菜单
 		return false;
 	};
 }
 
 function setLine() {
-	var Ln1 = document.getElementsByClassName("l1");
-	var Ln2 = document.getElementsByClassName("l2");
+	let Ln1 = document.getElementsByClassName("l1");
+	let Ln2 = document.getElementsByClassName("l2");
 	window.onmousedown = function() {
-		MouseDowning = 1;
+		mouseDowning = 1;
+		downButton = event.button;
 	};
 	window.onmouseup = function() {
-		MouseDowning = 0;
+		mouseDowning = 0;
 		putState = -1;
+		downButton = -1;
 		checkNum();
 	};
-	for (var i = 0; i < Ln1.length; i ++) {
-		Ln1[i].style.backgroundColor = "white";
-		Ln1[i].onmouseover = checkLine;
-		Ln1[i].onmousedown = changeLine;
+	for (let i = 0; i < Ln1.length; i ++) {
+		Ln1[i].onmouseover = cLine;
+		Ln1[i].onmousedown = scLine;
 	}
-	for (var i = 0; i < Ln2.length; i ++) {
-		Ln2[i].style.backgroundColor = "white";
-		Ln2[i].onmouseover = checkLine;
-		Ln2[i].onmousedown = changeLine;
-	}
+	for (let i = 0; i < Ln2.length; i ++) {
+		Ln2[i].onmouseover = cLine;
+		Ln2[i].onmousedown = scLine;
+	}	
 }
 
-function changeLine() {
-	if (this.style.backgroundColor == "black" && putState != 1) {
-		putState = 0;
-		this.style.backgroundColor = "white";
-	} else if (putState != 0){
-		putState = 1;
-		this.style.backgroundColor = "black";
-	}
+function cLine() {
+	if (mouseDowning != 0 && downButton != -1) changeLine(this);
 }
 
-function checkLine() {
-	if (MouseDowning == 0) return;
-	if (this.style.backgroundColor == "black" && putState != 1) {
-		putState = 0;
-		this.style.backgroundColor = "white";
-	} else if (putState != 0) {
-		putState = 1;
-		this.style.backgroundColor = "black";
+function scLine() {
+	downButton = event.button;
+	changeLine(this);
+}
+
+function changeLine(x) {
+	console.log(downButton + ' ' + putState);
+	if (x.style.backgroundColor == "") x.style.backgroundColor = "white";
+	if (downButton == 0) {
+		console.log(x.style.backgroundColor);
+		if (x.style.backgroundColor == "black" && (putState == 0 || putState == -1)) {
+			putState = 0;
+			x.style.backgroundColor = "white";
+		} else if (x.style.backgroundColor == "white" && (putState == 1 || putState == -1)) {
+			putState = 1;
+			x.style.backgroundColor = "black";
+		}
+	} else {
+		if (x.style.backgroundColor == "red" && (putState == 2 || putState == -1)) {
+			putState = 2;
+			x.style.backgroundColor = "white";
+		} else if (x.style.backgroundColor != "red" && (putState == 3 || putState == -1)) {
+			putState = 3;
+			x.style.backgroundColor = "red";
+		}
 	}
 }
+/*
+putState = 
+	-1 : none 
+	0 : black to white
+	1 : white to black
+	2 : red to white
+	3 : white to red
+*/
 
 function checkNum() {
-	for (var i = 0; i < 5; i ++) {
-		for (var j = 1; j <= 5; j ++) {
-			var k = i * 5 + j, s = 0;
+	for (let i = 0; i < 5; i ++) {
+		for (let j = 1; j <= 5; j ++) {
+			let k = i * 5 + j, s = 0, ss = 4;
 			if (document.getElementById("n" + k).innerText == "") continue;
-			var Lin = i * 5 + j;
+			let Lin = i * 5 + j;
 			if (document.getElementById("1l" + Lin).style.backgroundColor == "black") s ++;
 			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black") s ++;
+			if (document.getElementById("1l" + Lin).style.backgroundColor == "red") ss --;
+			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "red") ss --;
 			Lin = i * 6 + j;
 			if (document.getElementById("2l" + Lin).style.backgroundColor == "black") s ++;
 			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black") s ++;
-			if (s > document.getElementById("n" + k).innerText) {
+			if (document.getElementById("2l" + Lin).style.backgroundColor == "red") ss --;
+			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "red") ss --;
+			if (s > document.getElementById("n" + k).innerText || ss < document.getElementById("n" + k).innerText) {
 				document.getElementById("n" + k).style.color = "red";
 			} else if (s == document.getElementById("n" + k).innerText) {
 				document.getElementById("n" + k).style.color = "lightgrey";
@@ -84,11 +107,11 @@ function checkNum() {
 
 function setSummit() {
 	document.getElementById("smt").onclick = function() {
-		for (var i = 0; i < 5; i ++) {
-			for (var j = 1; j <= 5; j ++) {
-				var k = i * 5 + j, s = 0;
+		for (let i = 0; i < 5; i ++) { // 判断每个数字边上的边数是否满足要求
+			for (let j = 1; j <= 5; j ++) {
+				let k = i * 5 + j, s = 0;
 				if (document.getElementById("n" + k).innerText == "") continue;
-				var Lin = i * 5 + j;
+				let Lin = i * 5 + j;
 				if (document.getElementById("1l" + Lin).style.backgroundColor == "black") s ++;
 				if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black") s ++;
 				Lin = i * 6 + j;
@@ -100,8 +123,8 @@ function setSummit() {
 				}
 			}
 		}
-		var dx = [-1, 1, 0, 0], dy = [0, 0, -1, 1];
-		var e = [
+		let dx = [-1, 1, 0, 0], dy = [0, 0, -1, 1];
+		let e = [
 			[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 
 			[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 
 			[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 
@@ -110,16 +133,16 @@ function setSummit() {
 			[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 
 			[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], 
 		];
-		var a = [
+		let a = [
 			[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], 
 			[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], 
 		], vis = [
 			[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], 
 			[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], 
 		];
-		for (var i = 0; i < 6; i ++) { // 判断经过每个点的边数是否满足要求
-			for (var j = 1; j <= 6; j ++) {
-				var k = i * 5 + j, s = 0;
+		for (let i = 0; i < 6; i ++) { // 判断经过每个点的边数是否满足要求
+			for (let j = 1; j <= 6; j ++) {
+				let k = i * 5 + j, s = 0;
 				if (j < 6) if (document.getElementById("1l" + k).style.backgroundColor == "black") s ++, e[i * 6 + j][3] = 1; // right
 				if (j > 1) if (document.getElementById("1l" + (k - 1)).style.backgroundColor == "black") s ++, e[i * 6 + j][2] = 1; // left
 				k = i * 6 + j;
@@ -134,16 +157,16 @@ function setSummit() {
 			}
 		}
 
-		for (var k = 1; k <= 36; k ++) {
-			var i = Math.ceil(k / 6), j = k % 6;
+		for (let k = 1; k <= 36; k ++) {
+			let i = Math.ceil(k / 6), j = k % 6;
 			if (a[i][j] == 1) {
 				vis[i][j] = 1;
-				var sti = i, stj = j;
+				let sti = i, stj = j;
 				while (true) {
-					var Flag = 0;
-					for (var l = 0; l < 4; l ++) {
+					let Flag = 0;
+					for (let l = 0; l < 4; l ++) {
 						if (e[(i - 1) * 6 + j][l] == 0) continue;
-						var x = i + dx[l], y = j + dy[l];
+						let x = i + dx[l], y = j + dy[l];
 						if (x < 1 || y < 1 || x > 6 || y > 6) continue;
 						if (a[x][y] == 1 && vis[x][y] == 0) {
 							vis[x][y] = 1;
@@ -153,7 +176,7 @@ function setSummit() {
 							break;
 						}
 					}
-					if (Flag == 0) break;
+					if (Flag == 0) break;	
 				}
 				for (i = 1; i <= 6; i ++) {
 					for (j = 1; j <= 6; j ++) {
@@ -171,14 +194,14 @@ function setSummit() {
 }
 
 function putMessage(b) {
-	var x = document.getElementById("msg");
+	let x = document.getElementById("msg");
 	x.style.color = (b ? "green" : "red");
 	x.innerHTML = (b ? "AC!" : "WA!");
 }
 
 function setPuz() {
-	var x = document.body.clientWidth / 2 - 12;
-	var y = 270;
+	let x = document.body.clientWidth / 2 - 12;
+	let y = 270;
 	document.getElementById("smt").style.position = "absolute";
 	document.getElementById("smt").style.left = (x - 20) + "px";
 	document.getElementById("smt").style.top = (y + 220) + "px";
@@ -199,7 +222,7 @@ function setPuz() {
 	};
 	document.getElementById("cln").onclick = function() {
 		document.getElementById("msg").innerHTML = "";
-		for (var i = 1; i <= 30; i ++) {
+		for (let i = 1; i <= 30; i ++) {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
 		}
@@ -208,33 +231,33 @@ function setPuz() {
 	document.getElementById("msg").style.position = "absolute";
 	document.getElementById("msg").style.left = (x + 15) + "px";
 	document.getElementById("msg").style.top = (y - 165) + "px";
-	for (var i = 0; i < 5; i ++) {
-		for (var j = 1; j <= 5; j ++) {
-			var k = "n" + (i * 5 + j);
+	for (let i = 0; i < 5; i ++) {
+		for (let j = 1; j <= 5; j ++) {
+			let k = "n" + (i * 5 + j);
 			document.getElementById(k).style.position = "absolute";
-			document.getElementById(k).style.left = (x + (j - 3) * 60) + "px";
+			document.getElementById(k).style.left = ((x + 1) + (j - 3) * 60) + "px";
 			document.getElementById(k).style.top = (y + (i - 2) * 60) + "px";
 		}
 	}
-	for (var i = 0; i < 6; i ++) {
-		for (var j = 1; j <= 6; j ++) {
-			var k = "p" + (i * 6 + j);
+	for (let i = 0; i < 6; i ++) {
+		for (let j = 1; j <= 6; j ++) {
+			let k = "p" + (i * 6 + j);
 			document.getElementById(k).style.position = "absolute";
 			document.getElementById(k).style.left = (x - 10 + (j - 3) * 60) + "px";
 			document.getElementById(k).style.top = (y - 11 + (i - 2) * 60) + "px";
 		}
 	}
-	for (var i = 0; i < 6; i ++) {
-		for (var j = 1; j <= 5; j ++) {
-			var k = "1l" + (i * 5 + j);
+	for (let i = 0; i < 6; i ++) {
+		for (let j = 1; j <= 5; j ++) {
+			let k = "1l" + (i * 5 + j);
 			document.getElementById(k).style.position = "absolute";
 			document.getElementById(k).style.left = (x - 2 + (j - 3) * 60) + "px";
 			document.getElementById(k).style.top = (y - 9 + (i - 2) * 60) + "px";
 		}
 	}
-	for (var i = 0; i < 5; i ++) {
-		for (var j = 1; j <= 6; j ++) {
-			var k = "2l" + (i * 6 + j);
+	for (let i = 0; i < 5; i ++) {
+		for (let j = 1; j <= 6; j ++) {
+			let k = "2l" + (i * 6 + j);
 			document.getElementById(k).style.position = "absolute";
 			document.getElementById(k).style.left = (x - 7 + (j - 3) * 60) + "px";
 			document.getElementById(k).style.top = (y - 3 + (i - 2) * 60) + "px";
@@ -243,8 +266,8 @@ function setPuz() {
 }
 
 function setPoint() {
-	var x = document.getElementsByClassName("p");
-	for (var i = 0; i < x.length; i ++) {
+	let x = document.getElementsByClassName("p");
+	for (let i = 0; i < x.length; i ++) {
 		x[i].style.backgroundColor = "black";
 	}
 }
