@@ -14,7 +14,7 @@
 .l1 {
 	width: 55px;
 	height: 7px;
-    background-color: while;
+    background-color: white;
     color: red;
 	text-align: center;
 	user-select: none;
@@ -23,7 +23,7 @@
 .l2 {
 	height: 55px;
 	width: 7px;
-    background-color: while;
+    background-color: white;
     color: red;
 	text-align: center;
 	user-select: none;
@@ -34,9 +34,27 @@
 	width: 50px;
 	line-height: 49px;
 	text-align: center;
-	font-size: 35px;
+	font-size: 25px;
 	font-weight: bold;
 	user-select: none;
+}
+
+.c1 {
+    z-index: 1;
+	user-select: none;
+	background-color: red;
+	height: 20px;
+	width: 4px;
+    border-radius: 20px;
+}
+
+.c2 {
+    z-index: 1;
+	user-select: none;
+	background-color: red;
+	width: 20px;
+	height: 4px;
+    border-radius: 20px;
 }
 
 .btm {
