@@ -5,7 +5,7 @@ function initAll() {
 	setLine();
 	setPoint();
 	setSummit();
-	setFork(); 
+	setFork();
 }
 
 let mouseDowning = 0, putState = -1, downButton = -1;
@@ -149,12 +149,12 @@ function changeLine(x) {
 			x.style.backgroundColor = "black";
 		}
 	} else {
-		if (x.style.backgroundColor == "red" && (putState == 2 || putState == -1)) {
+		if (x.style.backgroundColor == "rgb(215, 0, 34)" && (putState == 2 || putState == -1)) {
 			putState = 2;
 			x.style.backgroundColor = "white";
-		} else if (x.style.backgroundColor != "red" && (putState == 3 || putState == -1)) {
+		} else if (x.style.backgroundColor != "rgb(215, 0, 34)" && (putState == 3 || putState == -1)) {
 			putState = 3;
-			x.style.backgroundColor = "red";
+			x.style.backgroundColor = "rgb(215, 0, 34)";
 		}
 	}
 }
@@ -163,8 +163,8 @@ putState =
 	-1 : none 
 	0 : black to white
 	1 : white to black
-	2 : red to white
-	3 : white to red
+	2 : rgb(215, 0, 34) to white
+	3 : white to rgb(215, 0, 34)
 */
 
 function checkNum() {
@@ -175,15 +175,15 @@ function checkNum() {
 			let Lin = i * 5 + j;
 			if (document.getElementById("1l" + Lin).style.backgroundColor == "black") s ++;
 			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black") s ++;
-			if (document.getElementById("1l" + Lin).style.backgroundColor == "red") ss --;
-			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "red") ss --;
+			if (document.getElementById("1l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
+			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			Lin = i * 6 + j;
 			if (document.getElementById("2l" + Lin).style.backgroundColor == "black") s ++;
 			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black") s ++;
-			if (document.getElementById("2l" + Lin).style.backgroundColor == "red") ss --;
-			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "red") ss --;
+			if (document.getElementById("2l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
+			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			if (s > document.getElementById("n" + k).innerText || ss < document.getElementById("n" + k).innerText) {
-				document.getElementById("n" + k).style.color = "red";
+				document.getElementById("n" + k).style.color = "rgb(215, 0, 34)";
 			} else if (s == document.getElementById("n" + k).innerText) {
 				document.getElementById("n" + k).style.color = "lightgrey";
 			} else {
@@ -280,13 +280,16 @@ function setSummit() {
 
 function putMessage(b) {
 	let x = document.getElementById("msg");
-	x.style.color = (b ? "green" : "red");
+	x.style.color = (b ? "green" : "rgb(215, 0, 34)");
 	x.innerHTML = (b ? "AC!" : "WA!");
 }
 
 function setPuz() {
 	let x = document.body.clientWidth / 2 - 12;
 	let y = 270;
+	document.getElementById("ending").style.position = "absolute";
+	document.getElementById("ending").style.left = (x) + "px";
+	document.getElementById("ending").style.top = (y + 450) + "px";
 	document.getElementById("smt").style.position = "absolute";
 	document.getElementById("smt").style.left = (x - 20) + "px";
 	document.getElementById("smt").style.top = (y + 220) + "px";
