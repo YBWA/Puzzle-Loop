@@ -14,8 +14,8 @@
 .l1 {
 	width: 55px;
 	height: 7px;
-    background-color: white;
-    color: red;
+	background-color: white;
+	color: red;
 	text-align: center;
 	user-select: none;
 }
@@ -23,8 +23,8 @@
 .l2 {
 	height: 55px;
 	width: 7px;
-    background-color: white;
-    color: red;
+	background-color: white;
+	color: red;
 	text-align: center;
 	user-select: none;
 }
@@ -49,12 +49,12 @@
 }
 
 .c2 {
-    z-index: 1;
+	z-index: 1;
 	user-select: none;
 	background-color: red;
 	width: 20px;
 	height: 4px;
-    border-radius: 20px;
+	border-radius: 20px;
 }
 
 .btm {
@@ -69,4 +69,11 @@
 	padding-bottom: 2px;
 	padding-right: 6px;
 	font-size: 20px;
+}
+
+.End {
+	font-family: Serif;
+	font-size: 20px;
+	color: black;
+	text-decoration: none;	
 }
