@@ -21,6 +21,7 @@ function setLine() {
 	let Ln2 = document.getElementsByClassName("l2");
 	window.onmousedown = function() {
 		mouseDowning = 1;
+		cleanLine();
 		downButton = event.button;
 	};
 	window.onmouseup = function() {
@@ -41,6 +42,7 @@ function setLine() {
 
 function cLine() {
 	if (mouseDowning != 0 && downButton != -1) changeLine(this);
+	else hlLine(this);
 }
 
 function scLine() {
@@ -48,11 +50,97 @@ function scLine() {
 	changeLine(this);
 }
 
+function hlLine(x) { // 改变联通块边、点颜色
+	if (x.style.backgroundColor != "black") return;
+	cleanLine();
+	let Id = x.getAttribute("id"), Cl;
+	for (let i = 1; i <= 30; i ++) {
+		if ("1l" + i == Id) {
+			Id = i, Cl = 0;
+			break;
+		}
+		if ("2l" + i == Id) {
+			Id = i, Cl = 1;
+			break;
+		}
+	}
+	let Que = [ 0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0], hd = 0, tl = 0;
+	let Vis1 = [0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0];
+	let Vis2 = [0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0];
+	Que[tl] = Id + Cl * 30;
+	while (hd <= tl) {
+		let Now = Que[hd], Flag = 0; hd ++;
+		if (Now <= 30) {
+			document.getElementById("1l" + Now).style.backgroundColor = "rgb(82, 184, 184)";
+			let i = Math.floor(Now / 5), j = Now % 5; if (!j) j = 5, i -= 1;
+			if (j > 1 && Now - 1 > 0) if (document.getElementById("1l" + (Now - 1)).style.backgroundColor == "black" && Vis1[Now - 1] == 0) {
+				Que[++ tl] = Now - 1, Vis1[Now - 1] = 1, Flag = 1;
+			}
+			if (j < 5 && Now + 1 < 31) if (document.getElementById("1l" + (Now + 1)).style.backgroundColor == "black" && Vis1[Now + 1] == 0) {
+				Que[++ tl] = Now + 1, Vis1[Now + 1] = 1, Flag = 1;
+			}
+			let t = (i - 1) * 6 + j;
+			if (t > 0 && i > 0) if (document.getElementById("2l" + t).style.backgroundColor == "black" && Vis2[t] == 0) {
+				Que[++ tl] = t + 30, Vis2[t] = 1, Flag = 1;
+			}
+			if (t + 1 < 31 && i > 0 && j < 6) if (document.getElementById("2l" + (t + 1)).style.backgroundColor == "black" && Vis2[t + 1] == 0) {
+				Que[++ tl] = t + 1 + 30, Vis2[t + 1] = 1, Flag = 1;
+			}
+			if (t + 6 < 31 && i < 6) if (document.getElementById("2l" + (t + 6)).style.backgroundColor == "black" && Vis2[t + 6] == 0) {
+				Que[++ tl] = t + 6 + 30, Vis2[t + 6] = 1, Flag = 1;
+			}
+			if (t + 7 < 31 && i < 6 && j < 6) if (document.getElementById("2l" + (t + 7)).style.backgroundColor == "black" && Vis2[t + 7] == 0) {
+				Que[++ tl] = t + 7 + 30, Vis2[t + 7] = 1, Flag = 1;
+			}
+		} else {
+			Now -= 30;
+			document.getElementById("2l" + Now).style.backgroundColor = "rgb(82, 184, 184)";
+			let i = Math.floor(Now / 6), j = (Now % 6), t = i * 5 + j - 1;
+			if (i > 0 && Now - 6 > 0) if (document.getElementById("2l" + (Now - 6)).style.backgroundColor == "black" && Vis2[Now - 6] == 0) {
+				Que[++ tl] = Now - 6 + 30, Vis2[Now - 6] = 1, Flag = 1;
+			}
+			if (j > 0 && t > 0) if (document.getElementById("1l" + (t)).style.backgroundColor == "black" && Vis1[t] == 0) {
+				Que[++ tl] = t, Vis1[t] = 1, Flag = 1;
+			}
+			if (j > 1 && t + 5 < 31) if (document.getElementById("1l" + (t + 5)).style.backgroundColor == "black" && Vis1[t + 5] == 0) {
+				Que[++ tl] = t + 5, Vis1[t + 5] = 1, Flag = 1;
+			}
+			// if (Flag == 0) document.getElementById("p" + (i * 6 + j)).style.backgroundColor = "rgb(130, 180, 0)"; Flag = 0;
+			if (i < 6 && Now + 6 < 31) if (document.getElementById("2l" + (Now + 6)).style.backgroundColor == "black" && Vis2[Now + 6] == 0) {
+				Que[++ tl] = Now + 6 + 30, Vis2[Now + 6] = 1, Flag = 1;
+			}
+			if (j < 6 && t + 1 < 31) if (document.getElementById("1l" + (t + 1)).style.backgroundColor == "black" && Vis1[t + 1] == 0) {
+				Que[++ tl] = t + 1, Vis1[t + 1] = 1, Flag = 1;
+			}
+			if (i < 6 && j < 6 && t + 6 < 31) if (document.getElementById("1l" + (t + 6)).style.backgroundColor == "black" && Vis1[t + 6] == 0) {
+				Que[++ tl] = t + 6, Vis1[t + 6] = 1, Flag = 1;
+			}
+			// if (Flag == 0) document.getElementById("p" + (i * 6 + j + 6)).style.backgroundColor = "rgb(130, 180, 0)"; Flag = 0;
+		}
+	}
+}
+
+function cleanLine() {
+	for (let i = 1; i <= 30; i ++) {
+		if (document.getElementById("1l" + i).style.backgroundColor == "rgb(82, 184, 184)") {
+			document.getElementById("1l" + i).style.backgroundColor = "black";
+		}
+		if (document.getElementById("2l" + i).style.backgroundColor == "rgb(82, 184, 184)") {
+			document.getElementById("2l" + i).style.backgroundColor = "black";
+		}
+	}
+	for (let i = 1; i <= 36; i ++) {
+		if (document.getElementById("p" + i).style.backgroundColor == "rgb(130, 180, 0)") {
+			document.getElementById("p" + i).style.backgroundColor = "black";
+		}
+	}
+}
+
 function changeLine(x) {
-	console.log(downButton + ' ' + putState);
+	cleanLine();
 	if (x.style.backgroundColor == "") x.style.backgroundColor = "white";
 	if (downButton == 0) {
-		console.log(x.style.backgroundColor);
 		if (x.style.backgroundColor == "black" && (putState == 0 || putState == -1)) {
 			putState = 0;
 			x.style.backgroundColor = "white";
@@ -169,10 +257,7 @@ function setSummit() {
 						let x = i + dx[l], y = j + dy[l];
 						if (x < 1 || y < 1 || x > 6 || y > 6) continue;
 						if (a[x][y] == 1 && vis[x][y] == 0) {
-							vis[x][y] = 1;
-							i = x;
-							j = y;
-							Flag = 1;
+							vis[x][y] = 1, i = x, j = y, Flag = 1;
 							break;
 						}
 					}
