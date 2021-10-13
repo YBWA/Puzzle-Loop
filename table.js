@@ -1,14 +1,26 @@
 window.onload = initAll;
 window.onresize = setPuz;
+
 function initAll() {
 	setPuz();
 	setLine();
 	setPoint();
+	setProblem();
 	setSummit();
 	setFork();
 }
 
 let mouseDowning = 0, putState = -1, downButton = -1;
+
+function setProblem() {
+	let id = Math.floor(Math.random() * probNum);
+	for (let i = 1; i <= 25; i ++) {
+		if (Problems[id][i - 1] < 4) {
+			document.getElementById("n" + i).innerHTML = Problems[id][i - 1];
+		} else document.getElementById("n" + i).innerHTML = "";
+	}
+	checkNumPoint();
+}
 
 function setFork() {
 	document.oncontextmenu = function() { // 取消右键菜单
@@ -130,7 +142,7 @@ function cleanLinePoint() {
 		}
 	}
 	for (let i = 1; i <= 36; i ++) {
-		if (document.getElementById("p" + i).style.backgroundColor == "rgb(218, 5, 197)") {
+		if (document.getElementById("p" + i).style.backgroundColor == "rgb(184, 184, 184)") {
 			document.getElementById("p" + i).style.backgroundColor = "black";
 		}
 	}
@@ -205,7 +217,7 @@ function checkNumPoint() {
 				document.getElementById("1l" + (i * 5 + j - 1)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
 			if (j < 6) if (document.getElementById("1l" + (i * 5 + j)).style.backgroundColor == "black" ||
 				document.getElementById("1l" + (i * 5 + j)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
-			if (s == 1) document.getElementById("p" + (i * 6 + j)).style.backgroundColor = "rgb(218, 5, 197)";
+			if (s == 1) document.getElementById("p" + (i * 6 + j)).style.backgroundColor = "rgb(184, 184, 184)";
 		}
 	}
 }
@@ -331,11 +343,33 @@ function setPuz() {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
 		}
+		for (let i = 1; i <= 36; i ++) {
+			document.getElementById("p" + i).style.backgroundColor = "black";
+		}
 		checkNumPoint();
 	}
 	document.getElementById("msg").style.position = "absolute";
 	document.getElementById("msg").style.left = (x + 15) + "px";
 	document.getElementById("msg").style.top = (y - 165) + "px";
+	document.getElementById("rdm").style.position = "absolute";
+	document.getElementById("rdm").style.left = (x - 120) + "px";
+	document.getElementById("rdm").style.top = (y + 220) + "px";
+	document.getElementById("rdm").onmousedown = function() {
+		document.getElementById("rdm").style.borderStyle = "ridge";
+	};
+	document.getElementById("rdm").onmouseup = function() {
+		document.getElementById("rdm").style.borderStyle = "solid";
+	};
+	document.getElementById("rdm").onclick = function() {
+		for (let i = 1; i <= 30; i ++) {
+			document.getElementById("1l" + i).style.backgroundColor = "white";
+			document.getElementById("2l" + i).style.backgroundColor = "white";
+		}
+		for (let i = 1; i <= 36; i ++) {
+			document.getElementById("p" + i).style.backgroundColor = "black";
+		}
+		setProblem();
+	}
 	for (let i = 0; i < 5; i ++) {
 		for (let j = 1; j <= 5; j ++) {
 			let k = "n" + (i * 5 + j);
