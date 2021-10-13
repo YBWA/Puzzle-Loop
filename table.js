@@ -21,14 +21,14 @@ function setLine() {
 	let Ln2 = document.getElementsByClassName("l2");
 	window.onmousedown = function() {
 		mouseDowning = 1;
-		cleanLine();
+		cleanLinePoint();
 		downButton = event.button;
 	};
 	window.onmouseup = function() {
 		mouseDowning = 0;
 		putState = -1;
 		downButton = -1;
-		checkNum();
+		checkNumPoint();
 	};
 	for (let i = 0; i < Ln1.length; i ++) {
 		Ln1[i].onmouseover = cLine;
@@ -52,7 +52,7 @@ function scLine() {
 
 function hlLine(x) { // 改变联通块边、点颜色
 	if (x.style.backgroundColor != "black") return;
-	cleanLine();
+	cleanLinePoint();
 	let Id = x.getAttribute("id"), Cl;
 	for (let i = 1; i <= 30; i ++) {
 		if ("1l" + i == Id) {
@@ -106,7 +106,6 @@ function hlLine(x) { // 改变联通块边、点颜色
 			if (j > 1 && t + 5 < 31) if (document.getElementById("1l" + (t + 5)).style.backgroundColor == "black" && Vis1[t + 5] == 0) {
 				Que[++ tl] = t + 5, Vis1[t + 5] = 1, Flag = 1;
 			}
-			// if (Flag == 0) document.getElementById("p" + (i * 6 + j)).style.backgroundColor = "rgb(130, 180, 0)"; Flag = 0;
 			if (i < 6 && Now + 6 < 31) if (document.getElementById("2l" + (Now + 6)).style.backgroundColor == "black" && Vis2[Now + 6] == 0) {
 				Que[++ tl] = Now + 6 + 30, Vis2[Now + 6] = 1, Flag = 1;
 			}
@@ -116,12 +115,12 @@ function hlLine(x) { // 改变联通块边、点颜色
 			if (i < 6 && j < 6 && t + 6 < 31) if (document.getElementById("1l" + (t + 6)).style.backgroundColor == "black" && Vis1[t + 6] == 0) {
 				Que[++ tl] = t + 6, Vis1[t + 6] = 1, Flag = 1;
 			}
-			// if (Flag == 0) document.getElementById("p" + (i * 6 + j + 6)).style.backgroundColor = "rgb(130, 180, 0)"; Flag = 0;
 		}
 	}
+	checkNumPoint();
 }
 
-function cleanLine() {
+function cleanLinePoint() {
 	for (let i = 1; i <= 30; i ++) {
 		if (document.getElementById("1l" + i).style.backgroundColor == "rgb(82, 184, 184)") {
 			document.getElementById("1l" + i).style.backgroundColor = "black";
@@ -131,14 +130,14 @@ function cleanLine() {
 		}
 	}
 	for (let i = 1; i <= 36; i ++) {
-		if (document.getElementById("p" + i).style.backgroundColor == "rgb(130, 180, 0)") {
+		if (document.getElementById("p" + i).style.backgroundColor == "rgb(218, 5, 197)") {
 			document.getElementById("p" + i).style.backgroundColor = "black";
 		}
 	}
 }
 
 function changeLine(x) {
-	cleanLine();
+	cleanLinePoint();
 	if (x.style.backgroundColor == "") x.style.backgroundColor = "white";
 	if (downButton == 0) {
 		if (x.style.backgroundColor == "black" && (putState == 0 || putState == -1)) {
@@ -167,19 +166,23 @@ putState =
 	3 : white to rgb(215, 0, 34)
 */
 
-function checkNum() {
+function checkNumPoint() {
 	for (let i = 0; i < 5; i ++) {
 		for (let j = 1; j <= 5; j ++) {
 			let k = i * 5 + j, s = 0, ss = 4;
 			if (document.getElementById("n" + k).innerText == "") continue;
 			let Lin = i * 5 + j;
-			if (document.getElementById("1l" + Lin).style.backgroundColor == "black") s ++;
-			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black") s ++;
+			if (document.getElementById("1l" + Lin).style.backgroundColor == "black" ||
+				document.getElementById("1l" + Lin).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black" ||
+				document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
 			if (document.getElementById("1l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			Lin = i * 6 + j;
-			if (document.getElementById("2l" + Lin).style.backgroundColor == "black") s ++;
-			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black") s ++;
+			if (document.getElementById("2l" + Lin).style.backgroundColor == "black" ||
+				document.getElementById("2l" + Lin).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black" ||
+				document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
 			if (document.getElementById("2l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
 			if (s > document.getElementById("n" + k).innerText || ss < document.getElementById("n" + k).innerText) {
@@ -189,6 +192,20 @@ function checkNum() {
 			} else {
 				document.getElementById("n" + k).style.color = "black";
 			}
+		}
+	}
+	for (let i = 0; i < 6; i ++) {
+		for (let j = 1; j <= 6; j ++) {
+			let s = 0;
+			if (i > 0) if (document.getElementById("2l" + ((i - 1)* 6 + j)).style.backgroundColor == "black" ||
+				document.getElementById("2l" + ((i - 1) * 6 + j)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (i < 5) if (document.getElementById("2l" + (i * 6 + j)).style.backgroundColor == "black" ||
+				document.getElementById("2l" + (i * 6 + j)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (j > 1) if (document.getElementById("1l" + (i * 5 + j - 1)).style.backgroundColor == "black" ||
+				document.getElementById("1l" + (i * 5 + j - 1)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (j < 6) if (document.getElementById("1l" + (i * 5 + j)).style.backgroundColor == "black" ||
+				document.getElementById("1l" + (i * 5 + j)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
+			if (s == 1) document.getElementById("p" + (i * 6 + j)).style.backgroundColor = "rgb(218, 5, 197)";
 		}
 	}
 }
@@ -280,7 +297,7 @@ function setSummit() {
 
 function putMessage(b) {
 	let x = document.getElementById("msg");
-	x.style.color = (b ? "green" : "rgb(215, 0, 34)");
+	x.style.color = (b ? "green" : "red");
 	x.innerHTML = (b ? "AC!" : "WA!");
 }
 
@@ -314,7 +331,7 @@ function setPuz() {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
 		}
-		checkNum();
+		checkNumPoint();
 	}
 	document.getElementById("msg").style.position = "absolute";
 	document.getElementById("msg").style.left = (x + 15) + "px";
