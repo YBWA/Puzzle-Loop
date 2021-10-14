@@ -155,17 +155,18 @@ function changeLine(x) {
 		if (x.style.backgroundColor == "black" && (putState == 0 || putState == -1)) {
 			putState = 0;
 			x.style.backgroundColor = "white";
-		} else if (x.style.backgroundColor == "white" && (putState == 1 || putState == -1)) {
+		} else if (x.style.backgroundColor == "white" && x.innerHTML == "" && (putState == 1 || putState == -1)) {
 			putState = 1;
 			x.style.backgroundColor = "black";
 		}
 	} else {
-		if (x.style.backgroundColor == "rgb(215, 0, 34)" && (putState == 2 || putState == -1)) {
+		if (x.innerHTML == "x" && (putState == 2 || putState == -1)) {
 			putState = 2;
-			x.style.backgroundColor = "white";
-		} else if (x.style.backgroundColor != "rgb(215, 0, 34)" && (putState == 3 || putState == -1)) {
+			x.innerHTML = "";
+		} else if (x.innerHTML == "" && (putState == 3 || putState == -1)) {
 			putState = 3;
-			x.style.backgroundColor = "rgb(215, 0, 34)";
+			x.style.backgroundColor = "white";
+			x.innerHTML = "x";
 		}
 	}
 }
@@ -174,8 +175,8 @@ putState =
 	-1 : none 
 	0 : black to white
 	1 : white to black
-	2 : rgb(215, 0, 34) to white
-	3 : white to rgb(215, 0, 34)
+	2 : red to white
+	3 : white to red
 */
 
 function checkNumPoint() {
@@ -188,15 +189,15 @@ function checkNumPoint() {
 				document.getElementById("1l" + Lin).style.backgroundColor == "rgb(82, 184, 184)") s ++;
 			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "black" ||
 				document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
-			if (document.getElementById("1l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
-			if (document.getElementById("1l" + (Lin + 5)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
+			if (document.getElementById("1l" + Lin).innerHTML == "x") ss --;
+			if (document.getElementById("1l" + (Lin + 5)).innerHTML == "x") ss --;
 			Lin = i * 6 + j;
 			if (document.getElementById("2l" + Lin).style.backgroundColor == "black" ||
 				document.getElementById("2l" + Lin).style.backgroundColor == "rgb(82, 184, 184)") s ++;
 			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "black" ||
 				document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "rgb(82, 184, 184)") s ++;
-			if (document.getElementById("2l" + Lin).style.backgroundColor == "rgb(215, 0, 34)") ss --;
-			if (document.getElementById("2l" + (Lin + 1)).style.backgroundColor == "rgb(215, 0, 34)") ss --;
+			if (document.getElementById("2l" + Lin).innerHTML == "x") ss --;
+			if (document.getElementById("2l" + (Lin + 1)).innerHTML == "x") ss --;
 			if (s > document.getElementById("n" + k).innerText || ss < document.getElementById("n" + k).innerText) {
 				document.getElementById("n" + k).style.color = "rgb(215, 0, 34)";
 			} else if (s == document.getElementById("n" + k).innerText) {
@@ -341,7 +342,9 @@ function setPuz() {
 		document.getElementById("msg").innerHTML = "";
 		for (let i = 1; i <= 30; i ++) {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
+			document.getElementById("1l" + i).innerHTML = "";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
+			document.getElementById("2l" + i).innerHTML = "";
 		}
 		for (let i = 1; i <= 36; i ++) {
 			document.getElementById("p" + i).style.backgroundColor = "black";
@@ -363,7 +366,9 @@ function setPuz() {
 	document.getElementById("rdm").onclick = function() {
 		for (let i = 1; i <= 30; i ++) {
 			document.getElementById("1l" + i).style.backgroundColor = "white";
+			document.getElementById("1l" + i).innerHTML = "";
 			document.getElementById("2l" + i).style.backgroundColor = "white";
+			document.getElementById("2l" + i).innerHTML = "";
 		}
 		for (let i = 1; i <= 36; i ++) {
 			document.getElementById("p" + i).style.backgroundColor = "black";
